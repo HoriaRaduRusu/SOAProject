@@ -2,10 +2,12 @@ HELP.md
 target/
 /authenticationServer/.mvn/
 /restAPI/.mvn/
+/emailService/.mvn/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /db_data/
 *.key
+/rabbit-data/
 
 ### STS ###
 .apt_generated

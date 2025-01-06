@@ -33,6 +33,7 @@ services:
     deploy:
       mode: replicated
       replicas: 3
+
   authentication-server:
     build:
       context: authenticationServer
@@ -45,9 +46,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      rabbitmq:
+        condition: service_started
     deploy:
       mode: replicated
       replicas: 2
+
+  email-service:
+    build:
+      context: emailService
+      dockerfile: Dockerfile
+    image: email-service:latest
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    depends_on:
+      - rabbitmq
 
   nginx:
     image: nginx:latest
@@ -58,3 +71,19 @@ services:
       - authentication-server
     ports:
       - "4000:4000"
+
+  smtp-server:
+    image: gessnerfl/fake-smtp-server:latest
+    ports:
+      - "7777:8080"
+      - "8081:8081"
+      - "8025:8025"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "email-rabbit"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - "./rabbit-data:/var/lib/rabbitmq/mnesia/"

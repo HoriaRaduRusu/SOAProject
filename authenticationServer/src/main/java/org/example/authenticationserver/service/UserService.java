@@ -1,13 +1,16 @@
 package org.example.authenticationserver.service;
 
 import io.jsonwebtoken.Jwts;
+import org.example.authenticationserver.client.RabbitClient;
 import org.example.authenticationserver.data.UserEntity;
 import org.example.authenticationserver.exception.AttributeInUseException;
 import org.example.authenticationserver.exception.InvalidLoginException;
 import org.example.authenticationserver.model.JwkSetResponseDTO;
 import org.example.authenticationserver.model.JwtResponseDTO;
 import org.example.authenticationserver.model.RegisterUserDTO;
+import org.example.authenticationserver.model.RegistrationEmailDTO;
 import org.example.authenticationserver.repository.UserRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,6 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -33,11 +35,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RabbitClient rabbitClient;
 
     public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder,
+                       RabbitClient rabbitClient) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.rabbitClient = rabbitClient;
     }
 
 
@@ -70,6 +75,7 @@ public class UserService {
         }
         UserEntity user = mapFromDto(registerUserDTO);
         userRepository.save(user);
+        rabbitClient.sendMessage(new RegistrationEmailDTO(user.getEmail(), user.getUsername()));
         return new JwtResponseDTO(generateToken(user.getUsername()));
     }
 

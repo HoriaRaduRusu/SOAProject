@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: emailService
+email-address: soa-project@test.com
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  rabbitmq:
+    host: email-rabbit
+  mail:
+    host: smtp-server
+    port: 8025

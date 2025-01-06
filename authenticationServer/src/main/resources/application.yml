@@ -13,6 +13,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+rabbit:
+  email-exchange: EmailExchange
+  email-routing-key: SEND_EMAIL
 jwt:
   public:
     key: classpath:rsa.public.key
@@ -26,3 +30,5 @@ spring:
       on-profile: docker
   datasource:
     url: jdbc:postgresql://db:5432/social_media
+  rabbitmq:
+    host: email-rabbit
