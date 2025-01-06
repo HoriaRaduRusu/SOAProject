@@ -4,6 +4,8 @@ target/
 /restAPI/.mvn/
 !**/src/main/**/target/
 !**/src/test/**/target/
+/db_data/
+*.key
 
 ### STS ###
 .apt_generated

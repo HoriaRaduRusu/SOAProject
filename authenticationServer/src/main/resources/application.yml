@@ -1,11 +1,10 @@
 server:
-  port: 8888
+  port: 9999
   servlet:
-    context-path: "/app"
-
+    context-path: "/authentication"
 spring:
   application:
-    name: restAPI
+    name: authenticationServer
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/social_media
@@ -14,6 +13,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+jwt:
+  public:
+    key: classpath:rsa.public.key
+  private:
+    key: classpath:rsa.private.key
+  expiration: 86400000
 ---
 spring:
   config:
