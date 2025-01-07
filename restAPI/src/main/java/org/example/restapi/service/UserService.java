@@ -8,6 +8,9 @@ import org.example.restapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -17,6 +20,12 @@ public class UserService {
                        FaasClient faasClient) {
         this.userRepository = userRepository;
         this.faasClient = faasClient;
+    }
+
+    public List<UserModel> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(this::mapToModel)
+                .collect(Collectors.toList());
     }
 
     public UserModel getUser(String username) {

@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.example.restapi.client.KafkaClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LoggingAspect {
+
+    @Autowired
+    public KafkaClient kafkaClient;
 
     @Around(value = "execution(* org.example.restapi.controller..*(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -27,7 +32,7 @@ public class LoggingAspect {
             if (exception != null) {
                 logMessage += " with exception " + exception.getMessage();
             }
-            log.info(logMessage);
+            kafkaClient.sendLogMessage(logMessage);
         }
     }
 }

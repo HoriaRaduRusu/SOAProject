@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: loggingService
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: log-group
+kafka-topic: log-message
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  kafka:
+    bootstrap-servers: kafka:9092

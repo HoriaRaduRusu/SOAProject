@@ -1,8 +1,6 @@
 HELP.md
 target/
-/authenticationServer/.mvn/
-/restAPI/.mvn/
-/emailService/.mvn/
+/**/.mvn/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /db_data/

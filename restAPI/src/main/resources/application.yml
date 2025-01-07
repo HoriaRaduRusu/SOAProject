@@ -11,6 +11,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/social_media
     username: postgres
     password: postgres
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: log-group
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,10 +26,19 @@ spring:
           issuer-uri: http://localhost:4000
           jwk-set-uri: http://localhost:4000/authentication/jwks
 faas-url: http://localhost:8080/function/markdown
+kafka-topic: log-message
 ---
 spring:
   config:
     activate:
       on-profile: docker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://host.docker.internal:4000/authentication/jwks
   datasource:
     url: jdbc:postgresql://db:5432/social_media
+  kafka:
+    bootstrap-servers: kafka:9092
+faas-url: http://host.docker.internal:8080/function/markdown
