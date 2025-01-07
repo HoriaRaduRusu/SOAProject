@@ -10,7 +10,6 @@ import org.example.authenticationserver.model.JwtResponseDTO;
 import org.example.authenticationserver.model.RegisterUserDTO;
 import org.example.authenticationserver.model.RegistrationEmailDTO;
 import org.example.authenticationserver.repository.UserRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,6 +81,7 @@ public class UserService {
     private String generateToken(String username) {
         return Jwts.builder()
                 .subject(username)
+                .issuer("http://localhost:4000")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(privateKey, Jwts.SIG.RS512)

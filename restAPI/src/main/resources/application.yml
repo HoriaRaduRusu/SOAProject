@@ -14,6 +14,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jws-algorithms: RS512
+          issuer-uri: http://localhost:4000
+          jwk-set-uri: http://localhost:4000/authentication/jwks
+faas-url: http://localhost:8080/function/markdown
 ---
 spring:
   config:
