@@ -22,7 +22,4 @@ public class UserEntity {
 
     @Column(name = "birth_date")
     private Date birthDate;
-
-    @Column(name = "main_page")
-    private String mainPage;
 }

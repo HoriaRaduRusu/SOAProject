@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FriendshipModel {
+public class FollowModel {
     private String username;
     private String email;
     private Long birthdate;

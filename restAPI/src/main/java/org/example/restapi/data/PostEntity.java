@@ -5,27 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-@Entity
 @Data
-@Table(name = "friends")
+@Entity
+@Table(name = "posts")
 @NoArgsConstructor
 @AllArgsConstructor
-public class FriendshipEntity {
+public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "created_date")
-    private Date createdDate;
+    @Column(name = "post_body")
+    private String postBody;
+
+    @Column(name = "post_title")
+    private String postTitle;
 
     @ManyToOne
-    @JoinColumn(name = "user_id_1")
-    private UserEntity user1;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id_2")
-    private UserEntity user2;
+    @JoinColumn(name = "owner_id")
+    private UserEntity owner;
 }

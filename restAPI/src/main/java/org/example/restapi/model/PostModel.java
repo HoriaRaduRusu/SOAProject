@@ -5,8 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserModel {
-    private String mainPage;
+@NoArgsConstructor
+public class PostModel {
+    private String title;
+    private String author;
+    private String content;
 }

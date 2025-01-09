@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class UserModel {
     private String username;
     private String email;
-    private String mainPage;
     private Long birthDate;
 }
