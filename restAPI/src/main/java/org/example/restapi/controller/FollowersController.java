@@ -32,12 +32,12 @@ public class FollowersController {
     @PostMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public void follow(Authentication authentication, @PathVariable String username) {
-        followersService.follow(username, authentication.getName());
+        followersService.follow(authentication.getName(), username);
     }
 
     @DeleteMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     public void unfollow(Authentication authentication, @PathVariable String username) {
-        followersService.unfollow(username, authentication.getName());
+        followersService.unfollow(authentication.getName(), username);
     }
 }

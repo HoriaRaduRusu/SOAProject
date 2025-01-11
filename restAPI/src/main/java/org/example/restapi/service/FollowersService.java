@@ -38,7 +38,7 @@ public class FollowersService {
         if (existingFriendship.isPresent()) {
             throw new ConflictException("User " + follower + " is already following user " + followed);
         }
-        FollowersEntity friendship = new FollowersEntity(null, null, followerEntity, followedEntity);
+        FollowersEntity friendship = new FollowersEntity(null, new Date(), followerEntity, followedEntity);
         followersRepository.save(friendship);
     }
 
@@ -64,13 +64,13 @@ public class FollowersService {
         return followModels;
     }
 
-    public void unfollow(String username1, String username2) {
-        UserEntity user1 = userRepository.findByUsername(username1)
-                .orElseThrow(() -> new EntityNotFoundException("User " + username1 + " not found"));
-        UserEntity user2 = userRepository.findByUsername(username1)
-                .orElseThrow(() -> new EntityNotFoundException("User " + username2 + " not found"));
+    public void unfollow(String follower, String followed) {
+        UserEntity user1 = userRepository.findByUsername(follower)
+                .orElseThrow(() -> new EntityNotFoundException("User " + follower + " not found"));
+        UserEntity user2 = userRepository.findByUsername(followed)
+                .orElseThrow(() -> new EntityNotFoundException("User " + followed + " not found"));
         FollowersEntity followersEntity = followersRepository.findByFollowerIdAndFollowedId(user1.getId(), user2.getId())
-                .orElseThrow(() -> new EntityNotFoundException(username1 + " doesn't follow " + username2));
+                .orElseThrow(() -> new EntityNotFoundException(follower + " doesn't follow " + followed));
         followersRepository.delete(followersEntity);
     }
 

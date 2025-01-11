@@ -23,10 +23,10 @@ public class PostController {
         return postService.getPost(id, htmlBody);
     }
 
-    @GetMapping("/author/{authorId}")
+    @GetMapping("/author/{username}")
     @PreAuthorize("isAuthenticated()")
-    public List<PostModel> getPostsByAuthor(@PathVariable long authorId, @RequestParam(required = false) boolean htmlBody) {
-        return postService.getPostsForUser(authorId, htmlBody);
+    public List<PostModel> getPostsByAuthor(@PathVariable String username, @RequestParam(required = false) boolean htmlBody) {
+        return postService.getPostsForUser(username, htmlBody);
     }
 
     @PostMapping()
